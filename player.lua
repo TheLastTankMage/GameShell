@@ -1,22 +1,22 @@
 hero = {}
 
 function hero:debug()
-  love.graphics.print(player.x, sw - (sw/2), 10)
-  love.graphics.print(player.y, sw - (sw/2), 20)
-  love.graphics.print(player.xVel, sw - (sw/2), 30)
-  love.graphics.print(player.yVel, sw - (sw/2), 40)
+  love.graphics.print("Player X " .. player.x, sw - (sw/2), 10)
+  love.graphics.print("Player Y " .. player.y, sw - (sw/2), 20)
+  love.graphics.print("Player xVel " .. player.xVel, sw - (sw/2), 30)
+  love.graphics.print("Player yVel " .. player.yVel, sw - (sw/2), 40)
 end
 
 function hero:init()
 
 -- Create Player
   player = {
-    x = 10, y = 10,
+    x = sw-(sw/2), y = sh-(sh/2),
     img = love.graphics.newImage("assets/player.png"),
     w = 12, h = 12,
-    speed = 50, maxSpeed = 100,
+    speed = 50, maxSpeed = 50,
     xVel = 0, yVel = 0,
-    friction = 10
+    friction = 2
   }
 
 end
@@ -73,17 +73,17 @@ function hero:keycontrol(dt)
 
   -- Velocity
   if not (Pressed.ad and Pressed.lr) then
-    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
       player.xVel = player.xVel - (player.speed * dt)
-    elseif love.keyboard.isDown("a") or love.keyboard.isDown("left")  then
+    elseif love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
       player.xVel = player.xVel + (player.speed * dt)
     end
   end
 
   if not (Pressed.ud and Pressed.ws) then
-    if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+    if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
       player.yVel = player.yVel - (player.speed * dt)
-    elseif love.keyboard.isDown("w") or love.keyboard.isDown("up")  then
+    elseif love.keyboard.isDown("s") or love.keyboard.isDown("down")  then
       player.yVel = player.yVel + (player.speed * dt)
     end
   end
@@ -92,33 +92,22 @@ end
 
 
 function hero:applyFriction(dt)
-  if player.xVel > 0 then
-    player.xVel = math.max(player.xVel-player.friction*dt, 0)	--Round to everything above 0, or 0 itself
-  elseif player.xVel < 0 then
-    player.xVel = math.min(player.xVel+player.friction*dt, 0)	--Round to everything below 0, or 0 itself
-  end
-
-  if player.yVel > 0 then
-    player.yVel = math.max(player.yVel-player.friction*dt, 0)	--Round to everything above 0, or 0 itself
-  elseif player.yVel < 0 then
-    player.yVel = math.min(player.yVel+player.friction*dt, 0)	--Round to everything below 0, or 0 itself
-  end
+  local d = 1 + player.friction*dt
+  player.xVel = player.xVel/d
+  player.yVel = player.yVel/d
 
 end
 
 
-function hero:speedLimit(dt)
-  if player.xVel > 0 then
-		player.xVel = math.min(player.xVel, player.maxSpeed)	--Round to everything below maxSpeed, or maxSpeed itself
-	elseif player.xVel < 0 then
-		player.xVel = math.min(player.xVel, player.maxSpeed*-1)	--Round to everything below maxSpeed, or maxSpeed itself
-	end
-
-	if player.yVel > 0 then
-		player.yVel = math.min(player.yVel, player.maxSpeed)	--Round to everything below maxSpeed, or maxSpeed itself
-	elseif player.yVel < 0 then
-		player.yVel = math.min(player.yVel, player.maxSpeed*-1)	--Round to everything below maxSpeed, or maxSpeed itself
-	end
+function hero:speedLimit()
+  -- get the current speed
+  local s = math.sqrt(player.xVel^2 + player.yVel^2)
+  if s > player.maxSpeed then
+     -- find the scalar "sv" so that: player.vel = player.vel * sv or player.vel = player.vel * 1/s * maxSpeed
+     local sv = maxSpeed/s
+     player.xVel = player.xVel * sv
+     player.yVel = player.yVel * sv
+  end
 
 end
 

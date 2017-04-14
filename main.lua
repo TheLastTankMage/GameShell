@@ -1,4 +1,5 @@
 debug = true
+debugMenu = require("debug")
 
 require("player")
 
@@ -49,5 +50,12 @@ end
 
 
 function love.draw()
+  debugMenu.print()
 
+end
+
+function love.keypressed(key, u)
+  if key == "f1" then
+    debugMenu.toggle()
+  end
 end
