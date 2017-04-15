@@ -16,6 +16,7 @@ end
 function game:draw()
   love.graphics.setColor(255, 255, 255) -- SHOULD ALWAYS BE FIRST
 
+
 -- Player/Level Draw
   hero:draw()
 

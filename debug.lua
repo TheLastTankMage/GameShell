@@ -2,6 +2,9 @@ local debugMenu = {}
 
 local toggle = false
 
+teststring = "Hello"
+
+print('debug.lua is being read')
 
 function debugMenu.print()
 

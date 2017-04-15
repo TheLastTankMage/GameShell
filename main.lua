@@ -50,7 +50,7 @@ end
 
 
 function love.draw()
-  debugMenu.print()
+--  debugMenu.print()
 
 end
 
