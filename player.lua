@@ -1,11 +1,5 @@
 hero = {}
 
-function hero:debug()
-  love.graphics.print("Player X " .. player.x, sw - (sw/2), 10)
-  love.graphics.print("Player Y " .. player.y, sw - (sw/2), 20)
-  love.graphics.print("Player xVel " .. player.xVel, sw - (sw/2), 30)
-  love.graphics.print("Player yVel " .. player.yVel, sw - (sw/2), 40)
-end
 
 function hero:init()
 
@@ -41,8 +35,6 @@ end
 
 function hero:draw()
   love.graphics.draw(player.img, player.x, player.y)
-
-  hero:debug()
 
 end
 

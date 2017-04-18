@@ -1,11 +1,12 @@
 debug = true
-debugMenu = require("debug")
+
 
 require("player")
 
--- HUMP Libraries
+-- Libraries
 gamestate = require("gamestate")
 timer = require("timer")
+dMenu = require("dmenu")
 
 -- Game States
 splashA = require("states.splashA")
@@ -41,7 +42,6 @@ function love.update(dt)
   timer.update(dt)
 
 
-
   if love.keyboard.isDown('escape') then
     love.event.quit()
   end
@@ -50,12 +50,12 @@ end
 
 
 function love.draw()
---  debugMenu.print()
+  dMenu.draw()
 
 end
 
 function love.keypressed(key, u)
   if key == "f1" then
-    debugMenu.toggle()
+    dMenu.switch()
   end
 end

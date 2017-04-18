@@ -25,7 +25,7 @@ function menu:draw()
   -- MENU GRAPHICS
   love.graphics.setColor(255, 255, 255)
   love.graphics.print(color.alpha, sw - (sw/2), 20)
-  love.graphics.print("THIS IS THE MENU - PRESS ENTER", sw /2, sh /2)
+  love.graphics.print("Pweb's ", sw /2, sh /2)
 
   -- FADE OVERLAY
   love.graphics.setColor(0, 0, 0, color.alpha)
