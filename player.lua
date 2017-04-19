@@ -1,5 +1,14 @@
 hero = {}
 
+-- Gamepad
+joyCons = love.joystick.getJoysticks()
+joyCon1 = joyCons[1]
+joyCon2 = joyCons[2]
+if joyCon1 == nil then joyCon1 = false end
+
+
+----------
+-- Main --
 
 function hero:init()
 
@@ -17,7 +26,8 @@ end
 
 
 function hero:update(dt)
-  hero:keycontrol(dt)
+  hero:keyControl(dt)
+
   hero:applyFriction(dt)
   hero:speedLimit(dt)
   hero:move(dt)
@@ -38,8 +48,42 @@ function hero:draw()
 
 end
 
+----------------------
+-- Movement Control --
 
-function hero:keycontrol(dt)
+
+function hero:applyFriction(dt)
+  local d = 1 + player.friction*dt
+  player.xVel = player.xVel/d
+  player.yVel = player.yVel/d
+
+end
+
+
+function hero:speedLimit()
+  -- get the current speed
+  local s = math.sqrt(player.xVel^2 + player.yVel^2)
+  if s > player.maxSpeed then
+     -- find the scalar "sv" so that: player.vel = player.vel * sv or player.vel = player.vel * 1/s * maxSpeed
+     local sv = maxSpeed/s
+     player.xVel = player.xVel * sv
+     player.yVel = player.yVel * sv
+  end
+
+end
+
+function hero:move(dt)
+  player.x = player.x + player.xVel*dt
+  player.y = player.y + player.yVel*dt
+
+end
+
+
+-------------------
+-- Input Control --
+
+
+function hero:keyControl(dt)
   local Pressed = {
     ws = false,
     ad = false,
@@ -79,32 +123,5 @@ function hero:keycontrol(dt)
       player.yVel = player.yVel + (player.speed * dt)
     end
   end
-
-end
-
-
-function hero:applyFriction(dt)
-  local d = 1 + player.friction*dt
-  player.xVel = player.xVel/d
-  player.yVel = player.yVel/d
-
-end
-
-
-function hero:speedLimit()
-  -- get the current speed
-  local s = math.sqrt(player.xVel^2 + player.yVel^2)
-  if s > player.maxSpeed then
-     -- find the scalar "sv" so that: player.vel = player.vel * sv or player.vel = player.vel * 1/s * maxSpeed
-     local sv = maxSpeed/s
-     player.xVel = player.xVel * sv
-     player.yVel = player.yVel * sv
-  end
-
-end
-
-function hero:move(dt)
-  player.x = player.x + player.xVel*dt
-  player.y = player.y + player.yVel*dt
 
 end

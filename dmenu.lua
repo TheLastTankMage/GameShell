@@ -15,6 +15,14 @@ function D.draw()
     love.graphics.print("Player yVel: " .. player.yVel, 30, 60)
   end
 
+  love.graphics.print(joyCons, 30, 70)
+
+  if joyCon1:isGamepad() then
+    love.graphics.print("Gamepad 1 Connected", 30, 80)
+  else
+    love.graphics.print("No Gamepad Connected", 30, 80)
+  end
+
 end
 
 
